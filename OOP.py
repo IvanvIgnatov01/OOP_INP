@@ -23,13 +23,14 @@ class Student:
     def _average_grade(self, grades):
         grade = []
         for a, v in grades.items():
-            grade += v
-        return sum(grade) / len(grade)
+            grade.append(v)
+        result = float(sum(grade) / len(grade))
+        return result
 
     def __str__(self):
-        return (f"Имя: {self.name} '\n' Фамилия: {self.surname} '\n' Средняя оценка за домашние задания: "
-                f"{float(Student._average_grade())} '\n' Курсы в процессе изучения: {', '.join(self.courses_in_progress)} '\n' "
-                f"Заверщенные курсы: {', '.join(self.finished_courses)}")
+        return (f"Имя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за домашние задания: "
+                f"{self._average_grade} \nКурсы в процессе изучения: {', '.join(self.courses_in_progress)} \n"
+                f"Завершенные курсы: {', '.join(self.finished_courses)}")
 
     def __lt__(self, other):
         return self._average_grade() < other._average_grade()
@@ -37,16 +38,13 @@ class Student:
 student_1 = Student("Ilya", "Titov", "мужской")
 student_1.finished_courses += ['Введение в програмирование']
 student_1.courses_in_progress += ['Python']
-student_1.rating_lecturer(lecturer_1, 'Python', '9')
-student_1.rating_lecturer(lecturer_1, 'Python', '8')
-student_1.rating_lecturer(lecturer_1, 'Python', '7')
+
 
 student_2 = Student("Alex", "Banov", "мужской")
 student_2.finished_courses += ['Введение в програмирование']
 student_2.courses_in_progress += ['Git']
-student_2.rating_lecturer(lecturer_2,'Git', '9')
-student_2.rating_lecturer(lecturer_2,'Git', '8')
-student_2.rating_lecturer(lecturer_2,'Git', '8')
+
+
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
@@ -57,18 +55,20 @@ class Mentor:
 mentor_1 = Mentor("Lubov", "Ivanova")
 mentor_2 = Mentor("Dima", "Volkov")
 
+
 class Lecturer(Mentor):
     grades = {}
 
     def _average_grade(self, grades):
         grade = []
         for a, v in grades.items():
-            grade += v
-        return sum(grade) / len(grade)
+            grade.append(v)
+        result = float(sum(grade) / len(grade))
+        return result
 
     def __str__(self):
-        return (f"Имя: {self.name} '\n' Фамилия: {self.surname} '\n' Средняя оценка за лекции: "
-                f"{float(Lecturer._average_grade())}")
+        return (f"Имя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за лекции: "
+                f"({self._average_grade}")
 
     def __lt__(self, other):
         return self._average_grade() < other._average_grade()
@@ -78,6 +78,14 @@ lecturer_1 = Lecturer("Aslan", "Turov")
 lecturer_1.courses_attached += ['Python', 'Git']
 lecturer_2 = Lecturer("Timur", "Baziev")
 lecturer_2.courses_attached += ['Git', 'Python']
+
+student_1.rating_lecturer(lecturer_1, 'Python', '9')
+student_1.rating_lecturer(lecturer_1, 'Python', '8')
+student_1.rating_lecturer(lecturer_1, 'Python', '7')
+
+student_2.rating_lecturer(lecturer_2, 'Git', '9')
+student_2.rating_lecturer(lecturer_2, 'Git', '8')
+student_2.rating_lecturer(lecturer_2, 'Git', '8')
 
 class Reviewer(Mentor):
 
@@ -125,7 +133,9 @@ print(f'Перечень лекторов:\n\n{lecturer_1}\n\n{lecturer_2}')
 
 student_list = [student_1, student_2]
 lecturer_list = [lecturer_1, lecturer_2]
-def average_grade_student_HW(students, course_name):
+
+
+def average_grade_student_HW(student_list, course_name):
     sum_grade = 0
     count_grade = 0
     for student in student_list:
@@ -133,7 +143,8 @@ def average_grade_student_HW(students, course_name):
             sum_grade += student._average_grade
             count_grade += 1
     average_for_sum = sum_grade / count_grade
-    return  average_for_sum
+    return average_for_sum
+
 
 def lecturer_rating(lecturer_list, course_name):
     sum_grade = 0
